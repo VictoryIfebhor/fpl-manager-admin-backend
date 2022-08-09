@@ -23,6 +23,5 @@ async def get_managers(
         )
         tasks.append(get_managers_per_page(client, url))
     result = await asyncio.gather(*tasks)
-    list(itertools.chain.from_iterable(result))
 
     return list(itertools.chain.from_iterable(result))
