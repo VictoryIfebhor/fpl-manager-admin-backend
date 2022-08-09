@@ -1,5 +1,4 @@
 import asyncio
-import itertools
 
 from fastapi import APIRouter, Depends
 from httpx import AsyncClient
@@ -26,9 +25,11 @@ async def get_managers(
     result: list
 
     result = await asyncio.gather(*tasks)
-    result = list(itertools.chain.from_iterable(result))
+    final_result = []
+    for lst in result:
+        final_result.extend(lst)
 
     return {
-        "count": len(result),
-        "managers": result
+        "count": len(final_result),
+        "managers": final_result
     }
