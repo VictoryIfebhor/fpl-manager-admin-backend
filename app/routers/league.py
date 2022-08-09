@@ -22,6 +22,13 @@ async def get_managers(
             f"/?page_standings={i}&phase=1"
         )
         tasks.append(get_managers_per_page(client, url))
-    result = await asyncio.gather(*tasks)
 
-    return list(itertools.chain.from_iterable(result))
+    result: list
+
+    result = await asyncio.gather(*tasks)
+    result = list(itertools.chain.from_iterable(result))
+
+    return {
+        "count": len(result),
+        "managers": result
+    }
