@@ -1,4 +1,5 @@
 import asyncio
+import itertools
 
 from fastapi import APIRouter, Depends
 from httpx import AsyncClient
@@ -22,5 +23,6 @@ async def get_managers(
         )
         tasks.append(get_managers_per_page(client, url))
     result = await asyncio.gather(*tasks)
+    list(itertools.chain.from_iterable(result))
 
-    return [[page[0], page[-1]] for page in result]
+    return list(itertools.chain.from_iterable(result))
